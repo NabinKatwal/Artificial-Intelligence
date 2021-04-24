@@ -5,24 +5,31 @@ class Hangman:
         pass
 
     def get_word(self):
-        word_list = ['Hello','Luffy','Artificial']
-        return random.choice(word_list)
+        word_list = ['Cat','Luffy','Artificial']
+        return word_list
 
-    def logic(self):
+    def difficulty(self, choice):
         word = self.get_word()
+        if choice.lower() == 'easy' and len(word) < 4:
+            return random.choice(word)
+        elif choice.lower() == 'medium' and 4 <= len(word) <= 8:
+            return random.choice(word)
+        else:
+            return random.choice(word)
+
+    def logic(self, choice):
+        word = self.difficulty(choice)
         letter_list = [word[i] for i in range(0, len(word))]
         guess_list = ['_' for i in range(0,len(word))]
-        temp = [letter_list, guess_list]
-        playing_list = []
-        for i in range(0,len(word)):
-            playing_list.append(random.choice(random.choices(temp, weights=map(len, temp))[0]))
-        print(letter_list)
-        print(guess_list)
-        print(playing_list)
+        print(word)
+
+    def play(self):
+        choice = input("Select difficulty level: 1. Easy 2. Medium 3. Hard ")
+        self.logic(choice)
 
 
 
 if __name__ == "__main__":
     hangman = Hangman()
 
-    hangman.logic()
+    hangman.play()
