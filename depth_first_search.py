@@ -1,31 +1,31 @@
-class DFS:
-    def __init__(self, graph):
-        self.graph = graph
-        self.visited = []
-        self.stack = []
-        self.top = -1
-        self.bottom = -1
+from collections import defaultdict
 
-    def push(self, item):
-        if -1< self.top <len(self.graph):
-            self.stack.append(item)
-            self.top+=1
-            return self.stack
-        else:
-            return "Stack overflow"
+class Graph:
+	def __init__(self):
+		self.graph = defaultdict(list)
 
-    def pop(self, item):
-        if self.top == -1:
-            return "Stack empty"
-        else:
-            self.stack.remove(self.stack[self.top])
-            self.top -= 1
-            return "popped"
+	def addEdge(self, u, v):
+		self.graph[u].append(v)
 
-    def search(self):
-        pass
+	def DFSUtil(self, v, visited):
+		visited.add(v)
+		print(v, end=' ')
+		for neighbour in self.graph[v]:
+			if neighbour not in visited:
+				self.DFSUtil(neighbour, visited)
 
-if __name__ == "__main__":
-    graph = [0,1,2,3,4]
+	def DFS(self, v):
+		visited = set()
+		self.DFSUtil(v, visited)
 
-    dfs = DFS(graph)
+
+g = Graph()
+g.addEdge(0, 1)
+g.addEdge(0, 2)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+g.addEdge(2, 3)
+g.addEdge(3, 3)
+
+print("Following is DFS from (starting from vertex 2)")
+g.DFS(2)
