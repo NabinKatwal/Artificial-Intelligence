@@ -2,7 +2,10 @@ import random
 
 class Hangman:
     def __init__(self):
-        pass
+        self.chance = 6;
+        self.guessed = []
+        self.wrong = []
+
 
     def get_word(self):
         word_list = ['Cat','Luffy','Artificial']
@@ -11,11 +14,13 @@ class Hangman:
     def difficulty(self):
         pass
 
-    def logic(self, choice):
+    def logic(self):
         word = self.get_word()
         letter_list = [word[i] for i in range(0, len(word))]
         guess_list = ['_' for i in range(0,len(word))]
-        print(word)
+        for i in letter_list:
+            print(i)
+            
 
     def play(self):
         pass 
@@ -25,4 +30,4 @@ class Hangman:
 if __name__ == "__main__":
     hangman = Hangman()
 
-    hangman.play()
+    hangman.logic()
