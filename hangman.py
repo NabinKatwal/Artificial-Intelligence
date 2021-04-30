@@ -44,6 +44,7 @@ class Hangman:
                 self.guess_list[word_hint] = self.letter_list[word_hint]
 
     def play(self):
+        index_alphabet = ''
         self.logic()
         print("HANGMAN")
         print(f"Your word to guess is: {self.guess_list}")
@@ -58,8 +59,15 @@ class Hangman:
                 self.chance += 1
             if word in self.letter_list:
                 self.guessed.append(word)
-                if len(self.guessed) == len(self.letter_list):
+                index_alphabet = self.letter_list.index(word)
+                if word in self.guess_list:
+                    # self.letter_list.remove(index_alphabet)
+                    pass
+                else:
+                    self.guess_list[index_alphabet] = self.letter_list[index_alphabet]
+                if '_' not in self.guess_list:
                     print("You won")
+                    print(f"The word was {self.get_word()}")
                     break 
             else:
                 self.wrong.append(word)
