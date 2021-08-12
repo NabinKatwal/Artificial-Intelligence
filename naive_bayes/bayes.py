@@ -49,3 +49,61 @@ def meanAndStdDevForClass(mydata):
     dict = groupUnderClass(mydata)
     for classValue, instances in dict.items():
         info[classValue] = meanAndStdDev(instances)
+    return info 
+
+def calculateGaussianProbability(x, mean, stdev):
+    expo = math.exp(-(math.pow(x-mean, 2)/(2*math.pow(stdev,2))))
+    return (1/(math.sqrt(2*math.pi)*stdev))*expo
+
+def calculateClassProbabilites(info, test):
+    probabilites = {}
+    for classValue, classSummaries in info.items():
+        probabilites[classValue] = 1
+        for i in range(len(classSummaries)):
+            mean, std_dev = classSummaries[i]
+            x = test[i]
+            probabilites[classValue] *= calculateGaussianProbability(x, mean, std_dev)
+    return probabilites
+
+def predict(info, test):
+    probabilites = calculateClassProbabilites(info, test)
+    bestLabel, bestProb = None, -1
+    for classValue, probability in probabilites.items():
+        if bestLabel is None or probability > bestProb:
+            bestProb = probability
+            bestLabel = classValue
+    return bestLabel
+
+def getPredictions(info, test):
+    predictions = []
+    for i in range(len(test)):
+        result = predict(info, test[i])
+        predictions.append(result)
+    return predictions
+
+def accuracy_rate(test, predictions):
+    correct = 0
+    for i in range(len(test)):
+        if test[i][-1] == predictions[i]:
+            correct += 1
+    return (correct / float(len(test))) * 100.0
+
+if __name__ == '__main__':
+    filename = r'D:\Fourth Sem\AI\Artificial-Intelligence\naive_bayes\Iris.csv'
+    mydata = csv.reader(open(filename, "rt"))
+    mydata = list(mydata)
+    mydata = encode_class(mydata)
+    for i in range(len(mydata)):
+        mydata[i] = [float(x) for x in mydata[i]]
+
+    ratio = 0.7 
+    train_data, test_data = splitting(mydata, ratio)
+    print('Total number of examples are: ', len(mydata))
+    print('Out of these, training set is: ', len(train_data))
+    print('Test set is: ', len(test_data))
+
+    info = meanAndStdDevForClass(train_data)
+
+    predictions = getPredictions(info, test_data)
+    accuracy = accuracy_rate(test_data, predictions)
+    print("Model's accuracy is: ",accuracy)
