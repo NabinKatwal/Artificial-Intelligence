@@ -70,4 +70,3 @@ if __name__ == "__main__":
     a,b,target = 4,3,1
     print("Path from one initial state to solution state ::")
     BFS(a, b, target)
-        

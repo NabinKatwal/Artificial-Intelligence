@@ -89,7 +89,7 @@ def accuracy_rate(test, predictions):
     return (correct / float(len(test))) * 100.0
 
 if __name__ == '__main__':
-    filename = r'D:\Fourth Sem\AI\Artificial-Intelligence\naive_bayes\Iris.csv'
+    filename = r'C:\Users\nabee\Desktop\lab_4th\Artificial-Intelligence\naive_bayes\Iris.csv'
     mydata = csv.reader(open(filename, "rt"))
     mydata = list(mydata)
     mydata = encode_class(mydata)
